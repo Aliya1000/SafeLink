@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeLink | Secure Emergency QR System</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-danger" href="/">
+                <span class="badge bg-danger">🛡️</span> SafeLink
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-nav-item"><a class="nav-link" href="#features">Features</a></li>
+                    <li class="nav-nav-item"><a class="nav-link" href="#how-it-works">How it works</a></li>
+                    <li class="nav-nav-item"><a class="btn btn-outline-danger ms-lg-3" href="/login">Login</a></li>
+                    <li class="nav-nav-item"><a class="btn btn-danger ms-lg-2" href="/register">Create Profile</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-section">
+        <div class="container text-center">
+            <h1 class="display-4 fw-bold">Seconds Matter in <span class="text-danger">Emergencies</span></h1>
+            <p class="lead text-muted mx-auto" style="max-width: 700px;">
+                SafeLink provides instant access to your vital medical information via a secure QR code, helping responders save your life when you can't speak for yourself.
+            </p>
+            <div class="mt-4">
+                {% if session.get('user_id') %}
+                    <a href="/dashboard" class="btn btn-danger btn-lg px-4 py-2 fw-bold">Go to My Dashboard</a>
+                {% else %}
+                    <a href="/register" class="btn btn-danger btn-lg px-4 py-2 fw-bold">Get Your Free QR Code</a>
+                    <a href="/login" class="btn btn-outline-danger btn-lg px-4 py-2 fw-bold ms-2">Login</a>
+                {% endif %}
+                <p class="mt-3 text-small text-muted small">No hidden fees • Secure & Encrypted</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Features Section -->
+    <section id="features" class="py-5">
+        <div class="container">
+            <h2 class="text-center fw-bold mb-5">Why SafeLink?</h2>
+            <div class="row g-4 text-center">
+                <div class="col-md-4">
+                    <div class="feature-card p-4">
+                        <div class="icon mb-3">📱</div>
+                        <h4>Instant Access</h4>
+                        <p class="text-muted">No apps required. Anyone with a smartphone can scan your QR code to view your profile.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card p-4">
+                        <div class="icon mb-3">🔒</div>
+                        <h4>Secure Tokens</h4>
+                        <p class="text-muted">Your personal data isn't in the QR code. We use secure random tokens to protect your privacy.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card p-4">
+                        <div class="icon mb-3">⚡</div>
+                        <h4>Emergency Actions</h4>
+                        <p class="text-muted">One-tap buttons to call your emergency contacts or view your specific allergies.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Security Section -->
+    <section class="bg-light py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h2 class="fw-bold">Your Privacy is Our Priority</h2>
+                    <p class="text-muted">Unlike other systems, SafeLink never stores your medical info directly inside the QR code. If you lose your card or phone, you can <strong>Revoke</strong> the QR code instantly from your dashboard, making the old one useless.</p>
+                    <ul class="list-unstyled">
+                        <li>✅ Cryptographically Secure Tokens</li>
+                        <li>✅ NoSQL Injection Protection</li>
+                        <li>✅ Instant QR Revocation</li>
+                    </ul>
+                </div>
+                <div class="col-md-6 text-center">
+                    <div class="p-5 bg-white rounded shadow-sm">
+                        <span style="font-size: 100px;">🛡️</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-4 border-top">
+        <div class="container text-center">
+            <p class="mb-0 text-muted">&copy; 2024 SafeLink System. A CSE Mini Project.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

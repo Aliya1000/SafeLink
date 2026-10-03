@@ -1,0 +1,107 @@
+{% extends "base_layout.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="d-flex align-items-center mb-4">
+                <a href="/dashboard" class="btn btn-outline-secondary btn-sm me-3">← Back</a>
+                <h2 class="fw-bold mb-0">Emergency Profile Setup</h2>
+            </div>
+
+            <form method="POST">
+                <!-- Section 1: Personal Info -->
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="mb-0 text-danger fw-bold">1. Personal Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Full Name (as it appears on ID)</label>
+                                <input type="text" name="full_name" class="form-control" value="{{ profile.full_name if profile else '' }}" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Blood Group</label>
+                                <select name="blood_group" class="form-select" required>
+                                    <option value="">Select...</option>
+                                    {% for bg in ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'] %}
+                                        <option value="{{ bg }}" {% if profile and profile.blood_group == bg %}selected{% endif %}>{{ bg }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">DOB</label>
+                                <input type="date" name="dob" class="form-control" value="{{ profile.dob if profile else '' }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Contacts -->
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="mb-0 text-danger fw-bold">2. Emergency Contacts</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Primary Contact Name</label>
+                                <input type="text" name="contact_name" class="form-control" value="{{ profile.emergency_contact_name if profile else '' }}" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Primary Contact Phone</label>
+                                <input type="tel" name="contact_phone" class="form-control" value="{{ profile.emergency_contact_phone if profile else '' }}" required>
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label">Residential Address</label>
+                                <textarea name="address" class="form-control" rows="2">{{ profile.address if profile else '' }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Medical Info -->
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="mb-0 text-danger fw-bold">3. Medical Details</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label">Allergies (Food, Drug, Environment)</label>
+                            <textarea name="allergies" class="form-control" placeholder="e.g. Penicillin, Peanuts">{{ profile.allergies if profile else '' }}</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Existing Medical Conditions</label>
+                            <textarea name="conditions" class="form-control" placeholder="e.g. Diabetes, Asthma, Heart Condition">{{ profile.medical_conditions if profile else '' }}</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Current Medications</label>
+                            <textarea name="medications" class="form-control">{{ profile.medications if profile else '' }}</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 4: Privacy Settings -->
+                <div class="card border-0 shadow-sm mb-4 bg-light">
+                    <div class="card-body">
+                        <h6 class="fw-bold mb-3">Privacy & Visibility</h6>
+                        <div class="form-check form-switch mb-2">
+                            <input class="form-check-input" type="checkbox" name="show_address" {% if not profile or profile.show_address %}checked{% endif %}>
+                            <label class="form-check-label">Show Address on Public Scan</label>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" name="show_meds" {% if not profile or profile.show_meds %}checked{% endif %}>
+                            <label class="form-check-label">Show Medications on Public Scan</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-grid mb-5">
+                    <button type="submit" class="btn btn-danger btn-lg fw-bold shadow-sm">Save Emergency Profile</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

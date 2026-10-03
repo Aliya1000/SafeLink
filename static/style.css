@@ -1,0 +1,125 @@
+:root {
+    --primary-red: #dc3545;
+    --dark-bg: #1a1a1a;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    color: #333;
+    scroll-behavior: smooth;
+}
+
+.hero-section {
+    padding: 100px 0;
+    background: linear-gradient(180deg, #fff 0%, #f8f9fa 100%);
+}
+
+.feature-card {
+    background: white;
+    border-radius: 15px;
+    border: 1px solid #eee;
+    transition: transform 0.3s ease, shadow 0.3s ease;
+    height: 100%;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.feature-card .icon {
+    font-size: 2.5rem;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    letter-spacing: -1px;
+}
+
+.btn-danger {
+    background-color: var(--primary-red);
+    border: none;
+    border-radius: 8px;
+}
+
+.nav-link {
+    font-weight: 500;
+    color: #555 !important;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 60px 0;
+    }
+}
+/* Smooth transitions for all buttons */
+.btn {
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Hover effect for the primary Red button */
+.btn-danger:hover {
+    background-color: #bb2d3b !important; /* Slightly darker red */
+    transform: translateY(-3px); /* Lifts the button up */
+    box-shadow: 0 10px 20px rgba(220, 53, 69, 0.3); /* Soft red glow */
+}
+
+/* Hover effect for the Outline (Login) button */
+.btn-outline-danger:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(220, 53, 69, 0.1);
+}
+
+/* Active state (when clicked) */
+.btn:active {
+    transform: translateY(-1px); /* Pushes it back down slightly */
+}
+/* Dashboard Specific Styles */
+.dashboard-card {
+    border: none;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    background: #ffffff;
+}
+
+.status-badge {
+    padding: 5px 12px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.bg-soft-danger { background-color: #fceaea; color: #dc3545; }
+.bg-soft-success { background-color: #eafaf1; color: #28a745; }
+
+.qr-placeholder {
+    width: 200px;
+    height: 200px;
+    background: #f8f9fa;
+    border: 2px dashed #dee2e6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    margin: 0 auto;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 500;
+    margin-bottom: 10px;
+    transition: 0.2s;
+}
+
+.action-btn:hover {
+    background-color: #f8f9fa;
+    transform: translateX(5px);
+}

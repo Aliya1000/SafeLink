@@ -1,0 +1,108 @@
+{% extends "base_layout.html" %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-0">Welcome, {{ user.name }}!</h2>
+            <p class="text-muted">Manage your emergency profile and QR code.</p>
+        </div>
+        <a href="/logout" class="btn btn-outline-secondary btn-sm">Logout</a>
+    </div>
+
+    <div class="row g-4">
+        <!-- Left Column: Profile Status -->
+        <div class="col-md-8">
+            <div class="card dashboard-card shadow-sm p-4 mb-4 border-0">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold mb-0">Emergency Profile</h5>
+                    {% if profile %}
+                        <span class="badge bg-success">Complete</span>
+                    {% else %}
+                        <span class="badge bg-danger">Incomplete</span>
+                    {% endif %}
+                </div>
+                
+                {% if profile %}
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <label class="text-muted small d-block">Blood Group</label>
+                            <span class="fw-bold text-danger">{{ profile.blood_group }}</span>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <label class="text-muted small d-block">Emergency Contact</label>
+                            <span class="fw-bold">{{ profile.emergency_contact_name }}</span>
+                        </div>
+                    </div>
+                    <a href="/profile" class="btn btn-sm btn-outline-danger">Edit Full Profile</a>
+                {% else %}
+                    <div class="text-center py-4">
+                        <p class="text-muted">You haven't set up your medical info yet.</p>
+                        <a href="/profile" class="btn btn-danger px-4">Create Emergency Profile</a>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Security Notice Card -->
+            <div class="card dashboard-card shadow-sm p-4 border-start border-danger border-4 border-top-0 border-bottom-0 border-end-0">
+                <h6 class="fw-bold">🛡️ Security Tip</h6>
+                <p class="small text-muted mb-0">If you lose your printed QR code, click "Regenerate" to create a new secure link and disable the old one.</p>
+            </div>
+        </div>
+
+        <!-- Right Column: QR Management -->
+        <div class="col-md-4">
+            <div class="card dashboard-card shadow-sm p-4 text-center border-0">
+                <h5 class="fw-bold mb-3">Your Secure QR</h5>
+                
+                {% if qr_code %}
+                    <!-- Real QR Image -->
+                    <div class="mb-3">
+                        <img src="{{ url_for('static', filename='qrcodes/' + qr_code.qr_image) }}" 
+                             class="img-fluid rounded border shadow-sm" 
+                             style="max-width: 200px;" 
+                             alt="Emergency QR">
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <!-- Download PNG -->
+                        <a href="{{ url_for('static', filename='qrcodes/' + qr_code.qr_image) }}" 
+                           download="SafeLink_QR.png" 
+                           class="btn btn-outline-dark btn-sm">
+                           Download PNG
+                        </a>
+
+                        <!-- Regenerate -->
+                        <a href="/qr/generate" 
+                           class="btn btn-link btn-sm text-muted text-decoration-none"
+                           onclick="return confirm('Regenerating will make your OLD QR code stop working. Continue?')">
+                           Regenerate New Code
+                        </a>
+
+                        <!-- Revoke -->
+                        <a href="/qr/revoke" 
+                           class="btn btn-link btn-sm text-danger text-decoration-none"
+                           onclick="return confirm('Are you sure? This will disable your emergency QR immediately!')">
+                           Revoke Access
+                        </a>
+                    </div>
+                {% else %}
+                    <!-- Case when no QR exists -->
+                    <div class="qr-placeholder mb-3 d-flex align-items-center justify-content-center bg-light rounded" style="height: 200px; border: 2px dashed #ccc;">
+                        <span class="text-muted">No QR Active</span>
+                    </div>
+                    
+                    {% if profile %}
+                        <p class="small text-muted">Your profile is ready! Generate your unique QR now.</p>
+                        <a href="/qr/generate" class="btn btn-danger w-100">Generate QR Now</a>
+                    {% else %}
+                        <p class="small text-muted">Complete your profile to generate your unique emergency QR code.</p>
+                        <button class="btn btn-danger w-100 disabled">Generate QR</button>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

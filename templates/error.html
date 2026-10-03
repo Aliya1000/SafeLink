@@ -1,0 +1,18 @@
+{% extends "base_layout.html" %}
+
+{% block content %}
+<div class="container py-5 text-center">
+    <div class="card shadow-sm border-0 p-5">
+        <h1 class="display-1 fw-bold text-danger">{{ code }}</h1>
+        <h3 class="mb-4">{{ message }}</h3>
+        <div>
+            <a href="/" class="btn btn-danger px-4">Go to Home</a>
+            {% if not session.get('user_id') %}
+                <a href="/login" class="btn btn-outline-secondary px-4">Login</a>
+            {% else %}
+                <a href="/dashboard" class="btn btn-outline-secondary px-4">Dashboard</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

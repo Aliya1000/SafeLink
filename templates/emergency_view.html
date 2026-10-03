@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeLink | EMERGENCY INFO</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; font-family: sans-serif; }
+        .emergency-header { background-color: #dc3545; color: white; padding: 20px 0; text-align: center; }
+        .blood-badge { font-size: 2rem; font-weight: bold; color: #dc3545; }
+        .info-label { color: #6c757d; font-size: 0.85rem; text-transform: uppercase; font-weight: 600; }
+        .info-value { font-size: 1.1rem; font-weight: 500; margin-bottom: 15px; }
+        .call-btn { padding: 15px; font-size: 1.2rem; font-weight: bold; border-radius: 12px; }
+    </style>
+</head>
+<body>
+
+    {% if error %}
+    <div class="container py-5 text-center">
+        <div class="card shadow-sm p-4">
+            <h1 class="display-1">⚠️</h1>
+            <h3 class="fw-bold">{{ error }}</h3>
+            <p class="text-muted">For security reasons, this profile is no longer accessible via this QR code.</p>
+            <a href="/" class="btn btn-danger">Back to SafeLink Home</a>
+        </div>
+    </div>
+    {% else %}
+    
+    <div class="emergency-header mb-4 shadow">
+        <h1 class="h3 mb-0 fw-bold">🚨 EMERGENCY INFORMATION</h1>
+        <p class="mb-0 opacity-75">Provided by SafeLink Secure System</p>
+    </div>
+
+    <div class="container pb-5">
+        <!-- Section 1: Vital Identity -->
+        <div class="card border-0 shadow-sm mb-3">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-8">
+                        <label class="info-label">Full Name</label>
+                        <div class="info-value text-uppercase">{{ profile.full_name }}</div>
+                    </div>
+                    <div class="col-4 text-center border-start">
+                        <label class="info-label">Blood</label>
+                        <div class="blood-badge">{{ profile.blood_group }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Contact Actions -->
+        <div class="d-grid gap-2 mb-3">
+            <a href="tel:{{ profile.emergency_contact_phone }}" class="btn btn-danger call-btn shadow">
+                📞 CALL EMERGENCY CONTACT<br>
+                <small class="fw-normal">{{ profile.emergency_contact_name }}</small>
+            </a>
+            <!-- Change profile.alt_phone to profile.alt_contact_phone -->
+        {% if profile.alt_contact_phone %}
+            <a href="tel:{{ profile.alt_contact_phone }}" class="btn btn-outline-danger call-btn">
+                📞 Call Alternative Contact
+            </a>
+        {% endif %}    
+        </div>
+
+        <!-- Section 3: Medical Details -->
+        <div class="card border-0 shadow-sm mb-3">
+            <div class="card-body">
+                <h6 class="fw-bold text-danger border-bottom pb-2 mb-3">MEDICAL DETAILS</h6>
+                
+                <label class="info-label">Allergies</label>
+                <div class="info-value">{{ profile.allergies if profile.allergies else 'None Reported' }}</div>
+
+                <label class="info-label">Medical Conditions</label>
+                <div class="info-value text-primary">{{ profile.medical_conditions if profile.medical_conditions else 'None Reported' }}</div>
+
+                {% if profile.show_meds %}
+                <label class="info-label">Current Medications</label>
+                <div class="info-value">{{ profile.medications if profile.medications else 'N/A' }}</div>
+                {% endif %}
+
+                {% if profile.notes %}
+                <label class="info-label">Important Notes</label>
+                <div class="p-2 bg-light rounded info-value">{{ profile.notes }}</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Section 4: Address (Conditional) -->
+        {% if profile.show_address %}
+        <div class="card border-0 shadow-sm mb-3">
+            <div class="card-body">
+                <label class="info-label">Residential Address</label>
+                <div class="info-value">{{ profile.address }}</div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="text-center mt-4 text-muted">
+            <p class="small">End of Profile • Scan Date: <span id="currentDate"></span></p>
+        </div>
+    </div>
+    {% endif %}
+
+    <script>
+        document.getElementById('currentDate').innerText = new Date().toLocaleString();
+    </script>
+</body>
+</html>
