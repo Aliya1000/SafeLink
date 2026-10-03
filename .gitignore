@@ -1,5 +1,18 @@
-venv/
+# Environment variables
 .env
+
+# Python virtual environments
+venv/
+.venv/
+.venv-1/
+.venv-2/
+
+# Python cache
 __pycache__/
+*.pyc
+
+# Generated QR images
 static/qrcodes/*.png
+
+# macOS
 .DS_Store
