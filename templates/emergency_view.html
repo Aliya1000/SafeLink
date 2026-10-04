@@ -50,18 +50,21 @@
         </div>
 
         <!-- Section 2: Contact Actions -->
-        <div class="d-grid gap-2 mb-3">
-            <a href="tel:{{ profile.emergency_contact_phone }}" class="btn btn-danger call-btn shadow">
-                📞 CALL EMERGENCY CONTACT<br>
-                <small class="fw-normal">{{ profile.emergency_contact_name }}</small>
-            </a>
-            <!-- Change profile.alt_phone to profile.alt_contact_phone -->
-        {% if profile.alt_contact_phone %}
-            <a href="tel:{{ profile.alt_contact_phone }}" class="btn btn-outline-danger call-btn">
-                📞 Call Alternative Contact
-            </a>
-        {% endif %}    
-        </div>
+<div class="d-grid gap-2 mb-3">
+    <!-- Primary Contact -->
+    <a href="tel:{{ profile.emergency_contact_phone }}" class="btn btn-danger call-btn shadow">
+        📞 CALL PRIMARY CONTACT<br>
+        <small class="fw-normal">{{ profile.emergency_contact_name }}</small>
+    </a>
+
+    <!-- Alternative Contact (Shows only if data exists) -->
+    {% if profile.alt_contact_phone %}
+    <a href="tel:{{ profile.alt_contact_phone }}" class="btn btn-outline-danger call-btn">
+        📞 CALL SECONDARY CONTACT<br>
+        <small class="fw-normal">{{ profile.alt_contact_name if profile.alt_contact_name else 'Alternative Contact' }}</small>
+    </a>
+    {% endif %}
+</div>
 
         <!-- Section 3: Medical Details -->
         <div class="card border-0 shadow-sm mb-3">

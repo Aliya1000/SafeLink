@@ -39,27 +39,25 @@
                 </div>
 
                 <!-- Section 2: Contacts -->
-                <div class="card border-0 shadow-sm mb-4">
-                    <div class="card-header bg-white py-3">
-                        <h5 class="mb-0 text-danger fw-bold">2. Emergency Contacts</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label class="form-label">Primary Contact Name</label>
-                                <input type="text" name="contact_name" class="form-control" value="{{ profile.emergency_contact_name if profile else '' }}" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Primary Contact Phone</label>
-                                <input type="tel" name="contact_phone" class="form-control" value="{{ profile.emergency_contact_phone if profile else '' }}" required>
-                            </div>
-                            <div class="col-md-12">
-                                <label class="form-label">Residential Address</label>
-                                <textarea name="address" class="form-control" rows="2">{{ profile.address if profile else '' }}</textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div class="row g-3">
+    <div class="col-md-6">
+        <label class="form-label">Primary Contact Name</label>
+        <input type="text" name="contact_name" class="form-control" value="{{ profile.emergency_contact_name if profile else '' }}" required>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label">Primary Contact Phone</label>
+        <input type="tel" name="contact_phone" class="form-control" value="{{ profile.emergency_contact_phone if profile else '' }}" required>
+    </div>
+    <!-- ADD THESE TWO FIELDS BELOW -->
+    <div class="col-md-6">
+        <label class="form-label">Alternative Contact Name</label>
+        <input type="text" name="alt_name" class="form-control" value="{{ profile.alt_contact_name if profile else '' }}">
+    </div>
+    <div class="col-md-6">
+        <label class="form-label">Alternative Contact Phone</label>
+        <input type="tel" name="alt_phone" class="form-control" value="{{ profile.alt_contact_phone if profile else '' }}">
+    </div>
+</div>
 
                 <!-- Section 3: Medical Info -->
                 <div class="card border-0 shadow-sm mb-4">

@@ -251,7 +251,10 @@ def profile():
             "dob": request.form.get("dob"),
             "emergency_contact_name": request.form.get("contact_name"),
             "emergency_contact_phone": request.form.get("contact_phone"),
+            # UPDATE THESE TWO LINES:
+            "alt_contact_name": request.form.get("alt_name"),
             "alt_contact_phone": request.form.get("alt_phone"),
+            
             "address": request.form.get("address"),
             "allergies": request.form.get("allergies"),
             "medical_conditions": request.form.get("conditions"),
