@@ -1,3 +1,5 @@
+import io
+import base64
 from functools import wraps
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -163,40 +165,35 @@ def generate_qr():
         flash("Please complete your profile first!", "warning")
         return redirect(url_for("profile"))
 
-    # --- NEW CLEANUP LOGIC ---
-    # Check if the user already has a QR record and delete the physical file
-    old_qr = db.qr_codes.find_one({"user_id": user_id, "active": True})
-    if old_qr:
-        old_file_path = os.path.join(QR_FOLDER, old_qr['qr_image'])
-        if os.path.exists(old_file_path):
-            os.remove(old_file_path) # Deletes the old file to save space
-    # -------------------------
-
+    # 1. Generate the secure token
     secure_token = secrets.token_urlsafe(32)
     emergency_url = f"{request.host_url}emergency/{secure_token}"
     
+    # 2. Create the QR image in memory (not as a file)
     qr = qrcode.QRCode(version=1, box_size=10, border=5)
     qr.add_data(emergency_url)
     qr.make(fit=True)
-    
     img = qr.make_image(fill_color="black", back_color="white")
     
-    file_name = f"qr_{user_id}_{secrets.token_hex(4)}.png" # Added a small random hex to prevent browser caching
-    file_path = os.path.join(QR_FOLDER, file_name)
-    img.save(file_path)
+    # 3. Convert the image to a Base64 String
+    buffered = io.BytesIO()
+    img.save(buffered, format="PNG")
+    img_base64 = base64.b64encode(buffered.getvalue()).decode('utf-8')
 
+    # 4. Save to Database (Deactivate old ones first)
     db.qr_codes.update_many({"user_id": user_id}, {"$set": {"active": False}})
     
     db.qr_codes.insert_one({
         "user_id": user_id,
         "secure_token": secure_token,
-        "qr_image": file_name,
+        "base64_image": img_base64, # Save the string, not a filename
         "active": True,
         "created_at": datetime.utcnow()
     })
 
     flash("Your Emergency QR Code has been updated!", "success")
     return redirect(url_for("dashboard"))
+
 # =========================================================
 # 7. LOGOUT
 # =========================================================

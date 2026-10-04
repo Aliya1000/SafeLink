@@ -53,42 +53,41 @@
 
         <!-- Right Column: QR Management -->
         <div class="col-md-4">
-            <div class="card dashboard-card shadow-sm p-4 text-center border-0">
+            <div class="card dashboard-card shadow-sm p-4 text-center border-0" style="min-height: 400px;">
                 <h5 class="fw-bold mb-3">Your Secure QR</h5>
-                
+        
                 {% if qr_code %}
-                    <!-- Real QR Image -->
+                    <!-- Real QR Image (Using Base64) -->
                     <div class="mb-3">
-                        <img src="{{ url_for('static', filename='qrcodes/' + qr_code.qr_image) }}" 
+                        <img src="data:image/png;base64,{{ qr_code.base64_image }}" 
                              class="img-fluid rounded border shadow-sm" 
                              style="max-width: 200px;" 
                              alt="Emergency QR">
                     </div>
                     
                     <div class="d-grid gap-2">
-                        <!-- Download PNG -->
-                        <a href="{{ url_for('static', filename='qrcodes/' + qr_code.qr_image) }}" 
+                        <!-- Professional Download Link -->
+                        <a href="data:image/png;base64,{{ qr_code.base64_image }}" 
                            download="SafeLink_QR.png" 
                            class="btn btn-outline-dark btn-sm">
                            Download PNG
                         </a>
 
-                        <!-- Regenerate -->
                         <a href="/qr/generate" 
                            class="btn btn-link btn-sm text-muted text-decoration-none"
-                           onclick="return confirm('Regenerating will make your OLD QR code stop working. Continue?')">
+                           onclick="return confirm('Regenerating will invalidate your old QR. Continue?')">
                            Regenerate New Code
                         </a>
 
-                        <!-- Revoke -->
                         <a href="/qr/revoke" 
                            class="btn btn-link btn-sm text-danger text-decoration-none"
-                           onclick="return confirm('Are you sure? This will disable your emergency QR immediately!')">
+                           onclick="return confirm('Are you sure you want to revoke access?')">
                            Revoke Access
                         </a>
                     </div>
+
                 {% else %}
-                    <!-- Case when no QR exists -->
+                    <!-- Case when NO QR exists -->
                     <div class="qr-placeholder mb-3 d-flex align-items-center justify-content-center bg-light rounded" style="height: 200px; border: 2px dashed #ccc;">
                         <span class="text-muted">No QR Active</span>
                     </div>
